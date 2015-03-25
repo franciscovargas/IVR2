@@ -9,8 +9,8 @@ WorldInfo {
   runRealTime TRUE
 }
 Viewpoint {
-  orientation -0.120363 -0.748282 -0.65237 3.01018
-  position 0.174157 0.200271 -0.258055
+  orientation -0.53143 -0.67187 -0.51592 2.10336
+  position -0.195015 1.18816 -0.0903229
 }
 PointLight {
   ambientIntensity 0.5
@@ -221,7 +221,6 @@ DEF KHEPERA DifferentialWheels {
   rotation 0 1 0 4.70716
   children [
     Camera {
-      translation 0 0 -0.026
     }
     Shape {
       appearance Appearance {
@@ -608,8 +607,8 @@ DEF KHEPERA DifferentialWheels {
   encoderResolution 100
 }
 DEF KHEPERA DifferentialWheels {
-  translation 0.195312 0 0.209311
-  rotation 0 1 0 4.77608
+  translation 0.168754 0 0.217204
+  rotation 0 1 0 1.49252
   children [
     Shape {
       appearance Appearance {
