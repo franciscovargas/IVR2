@@ -17,6 +17,8 @@ function [] = partA()
     % and leave the controll to the keyboard
     l1 = 0;
     r1 = 0;
+    camera = wb_robot_get_device('camera');
+    wb_camera_enable(camera, TIME_STEP)
     while wb_robot_step(TIME_STEP) ~= -1
         
         % read all distance sensors
@@ -43,8 +45,12 @@ function [] = partA()
         wb_differential_wheels_set_speed(left_speed,right_speed);
         [x, y, phi] = odometry( x, y, phi, d1, d2,TIME_STEP);
         [x*100, y*100, phi]
+        img =   wb_camera_get_image(camera);
+        hsv_img = rgb2hsv(img);
+        % bbbb
+        t_im = thresh(hsv_img(:,:,1));
         % muahahahahahahahahahah
-        wb_robot_step(TIME_STEP);  
+        wb_robot_step(TIME_STEP); 
         
         
         % is it home yet?   TODO: make it actually go there
