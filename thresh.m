@@ -16,7 +16,6 @@ Normed good params:
     red: 0.513, 0.572
     green: 0.549, 0.612
     blue: 0.525. 0.529
-smothed histograms are kinda shit
 updated upper bounds:
     r: 0.6026
     g: 0.6096
@@ -24,14 +23,17 @@ updated upper bounds:
     
 %}
 
-% img = imread('train14.jpg');
-% dimensions of the image
+% initialise boolean variable thresh
+thresh = 0;
+
+% extract the height and width of the image
 [height width] = size(value);
 
-
+% define the parameters
 sizeparam = 8;
 low_green = 60.0 / 360.0;
 high_green = 150 / 360.0;
+
 
 output = zeros(height, width);
 for row = 1 : height
@@ -44,17 +46,17 @@ for row = 1 : height
         end
     end
 end
+
+% remove noise
+output = bwareaopen(output, 5);
 [label na] = bwlabel(output);
 property = regionprops(label, 'all');
-disp('AREA');
 areas = [property.Area];
+
+imshow(output);
+%if intruder is identified
 if size(areas) > 0
-    if areas(1) > 150
-        areas(1)
-        disp('SHIT');
-        imshow(output);
-        DIE_KEVIN
+    if areas(1) > 80
+        thresh = 1;
     end;
 end;
-disp('AREA');
-thresh = output;

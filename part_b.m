@@ -76,13 +76,21 @@ function [] = partA()
 
     % Detect intruder
         % read image from camera
-        %img = wb_camera_get_image(camera);
+        img = wb_camera_get_image(camera);
 
         % transform image to HSV
-        %hsv_img = rgb2hsv(img);
+        hsv_img = rgb2hsv(img);
 
         % perform thresholding
-        %t_im = thresh(hsv_img(:,:,1));
+        t_im = thresh(hsv_img(:,:,1));
+        
+        % if intruder was detected
+        if(t_im == 1)
+            wb_differential_wheels_set_speed(0,0);
+            
+        disp ('Intruder seen')
+        flag = 0;
+        end
 
     % Home detection
         % detect if it is close to 'home' area - point(0,0)
@@ -104,4 +112,4 @@ function [] = partA()
 
     end
 
-       % save('error_kd_min.mat', 'error_array');
+       %save('error_kd_min.mat', 'error_array');
