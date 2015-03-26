@@ -39,7 +39,7 @@ while wb_robot_step(TIME_STEP) ~= -1
            sensor_values(i) = wb_distance_sensor_get_value(ps(i));
        end
   % display all distance sensors values
-       sensor_values
+       %sensor_values
   
   % control goes to the keyboard
     keyboard;
