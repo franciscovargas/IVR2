@@ -1,4 +1,5 @@
 function values = get_sensor_values()
+%GET_SENSOR_VALUES - Function reads the values from the sensors 
 
 % constants
 TIME_STEP = 64;
