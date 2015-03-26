@@ -1,6 +1,7 @@
-function [] = partA()
-% PARTA Part A of the assignment - Implementing an wall-following obstacle avoiding
-% algorithm that uses proportional error control 
+function [] = assignment()
+% ASSIGNMENT Part A and B of the assignment - Implementing an wall-following 
+% algorithm that uses PD error control to avoid obstacles, and which recognises
+% intruders in the pitch
 
     % define the constants for proportional movement
     TIME_STEP = 64;
@@ -35,11 +36,6 @@ function [] = partA()
         
         % read all distance sensors
         sensor_values = get_sensor_values();
-        
-        % check if there are no walls around
-        if (sensor_values(1) == 0)
-            wb_differential_wheels_set_speed(left_speed,right_speed);
-        end;
     
     % Proportional - differential control
         

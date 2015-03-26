@@ -54,9 +54,13 @@ property = regionprops(label, 'all');
 areas = [property.Area];
 
 imshow(output);
-%if intruder is identified
+%if intruder is identified (depending on the size of the object compared to the frame)
+% we selected anything larger than 1/50 of the picture area
+
+img_area = height * width;
+
 if size(areas) > 0
-    if areas(1) > 80
+    if areas(1) > img_area/50
         thresh = 1;
     end;
 end;
