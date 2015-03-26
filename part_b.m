@@ -8,7 +8,7 @@ function [] = partA()
     DEFAULT_SPEED = 4;
     left_speed = 4;
     right_speed = 4;
-    Kp = 0.00025;
+    Kp = 0.000025;
     Kd = 0.025;
     err_current = 0;
     err_previous = 0;
@@ -23,7 +23,7 @@ function [] = partA()
     phi = 0;
     l1 = 0;
     r1 = 0;
-    AREA = 0.003;
+    AREA = 0.005;
     
     % initialise camera
     camera = wb_robot_get_device('camera');
@@ -32,6 +32,8 @@ function [] = partA()
     % loop
     i = 0;
     flag = 1;
+    
+    error_array = [];
 
     while (flag == 1)
         
@@ -43,7 +45,7 @@ function [] = partA()
         left_sensors = mean(sensor_values(1:2));
 
         % proportional error control
-        err_current = left_sensors - GOAL_SENSOR_VALUES;
+        err_current = GOAL_SENSOR_VALUES - left_sensors;
         delta_speed_p = Kp * err_current;
         
         % differential error control
@@ -53,8 +55,8 @@ function [] = partA()
         delta_speed = delta_speed_p + delta_speed_d;
         
         % set speeds
-        left_speed = left_speed + delta_speed;
-        right_speed = right_speed - delta_speed;
+        left_speed = left_speed - delta_speed;
+        right_speed = right_speed + delta_speed;
         
         % move
         wb_differential_wheels_set_speed(left_speed,right_speed);
@@ -96,10 +98,10 @@ function [] = partA()
             flag = 0;
         end
          
+        %error_array = [error_array; [i err_current left_sensors delta_speed]];
         i = i+1;
         wb_robot_step(TIME_STEP);
 
     end
 
-
-
+       % save('error_kd_min.mat', 'error_array');
