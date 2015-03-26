@@ -31,26 +31,33 @@ function [] = assignment()
     % loop
     i = 0;
     flag = 1;
-    ok = 0;
+    ok = 1;
 
     while (flag == 1)
         
         % read all distance sensors
-        sensor_values = get_sensor_values();
+        sensor_values = get_sensor_values()
         
         
         % this is not currently called since ok is initialised with 0
         % the function is supposed to follow a path in a straight line if
         % by the time it runs it doesn't detect any walls to it's left
-        while((sensor_values(1) < 50 && sensor_values(2) < 50) && ok == 1)
+        while(((sensor_values(1) < 100) || (sensor_values(2) < 100)) && ok == 1)
                         wb_differential_wheels_set_speed(4,4);
             wb_robot_step(TIME_STEP);
-            
+            disp('looping');
             % read all distance sensors
-            sensor_values = get_sensor_values();
+            mean(sensor_values(1:3))
+            sensor_values = get_sensor_values()
         end
+        if (ok == 1)
+            wb_differential_wheels_set_speed(0,0);
+            wb_robot_step(TIME_STEP);
+            wb_differential_wheels_set_speed(4,4);
+        end
+        disp('#######################')
         ok = 0;
-    
+        mean(sensor_values(1:3))
     % Proportional - differential control
         
         % sum the values of left sensors
