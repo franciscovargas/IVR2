@@ -5,12 +5,10 @@ function [] = partA()
     % define the constants for proportional movement
     TIME_STEP = 64;
     GOAL_SENSOR_VALUES = 250;
-    DEFAULT_SPEED = 4;
     left_speed = 4;
     right_speed = 4;
     Kp = 0.000025;
     Kd = 0.025;
-    err_current = 0;
     err_previous = 0;
     
     % initialise encoders
@@ -32,14 +30,18 @@ function [] = partA()
     % loop
     i = 0;
     flag = 1;
-    
-    error_array = [];
 
     while (flag == 1)
         
-    % Proportional - differential control
         % read all distance sensors
         sensor_values = get_sensor_values();
+        
+        % check if there are no walls around
+        if (sensor_values(1) == 0)
+            wb_differential_wheels_set_speed(left_speed,right_speed);
+        end;
+    
+    % Proportional - differential control
         
         % sum the values of left sensors
         left_sensors = mean(sensor_values(1:2));
@@ -87,14 +89,14 @@ function [] = partA()
         % if intruder was detected
         if(t_im == 1)
             wb_differential_wheels_set_speed(0,0);
-            
-        disp ('Intruder seen')
-        flag = 0;
+          
+            disp ('Intruder seen')
+            flag = 0;
         end
 
     % Home detection
         % detect if it is close to 'home' area - point(0,0)
-        if (i > 100 && ((x < 0.002 && y < 0.002 && x >= 0 && y >= 0) ...
+        if (i > 100 && ((x < AREA && y < AREA && x >= 0 && y >= 0) ...
          || (x > -1*AREA && y > -1*AREA && x <= 0 && y <= 0)))
             
             % stop the robot
@@ -106,10 +108,8 @@ function [] = partA()
             flag = 0;
         end
          
-        %error_array = [error_array; [i err_current left_sensors delta_speed]];
         i = i+1;
         wb_robot_step(TIME_STEP);
 
     end
 
-       %save('error_kd_min.mat', 'error_array');
